@@ -1,155 +1,1433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>KFC Clone</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KFC Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Top Bar Styles */
+        .top-bar {
+            background-color: #e4002b;
+            color: white;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 14px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #ffffff;
+            padding: 15px 40px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 38px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e4002b;
+        }
+
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #e4002b;
+            letter-spacing: 2px;
+        }
+
+        .sign-in-btn {
+            background-color: transparent;
+            color: #333;
+            border: 2px solid #e4002b;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .sign-in-btn:hover {
+            background-color: #e4002b;
+            color: white;
+        }
+
+        /* Black Banner Styles */
+        .order-banner {
+            background-color: #000000;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            position: fixed;
+            top: 116px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+        }
+
+        .order-banner-text {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .order-now-btn {
+            background-color: #e4002b;
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .order-now-btn:hover {
+            background-color: #c00025;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            margin-top: 176px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background-color: #ffffff;
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: calc(100vh - 176px);
+            overflow-y: auto;
+            top: 176px;
+        }
+
+        .sidebar h2 {
+            padding: 0 20px 20px;
+            color: #e4002b;
+            font-size: 24px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .menu-categories {
+            list-style: none;
+        }
+
+        .menu-categories li {
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .menu-categories li:hover {
+            background-color: #fff5f5;
+            border-left-color: #e4002b;
+            color: #e4002b;
+        }
+
+        .menu-categories li.active {
+            background-color: #e4002b;
+            color: white;
+            border-left-color: #c00025;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-section h2 {
+            color: #e4002b;
+            font-size: 28px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e4002b;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: block;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(228,0,43,0.2);
+        }
+
+        .menu-item-image {
+            width: 100%;
+            height: 220px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 20px;
+        }
+
+        .menu-item-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .menu-item-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .menu-item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-item-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e4002b;
+        }
+
+        .add-button {
+            background-color: #e4002b;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover {
+            background-color: #c00025;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .top-bar {
+                font-size: 12px;
+                padding: 8px 15px;
+            }
+
+            .header {
+                padding: 15px 20px;
+                top: 34px;
+            }
+
+            .header-left {
+                gap: 20px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .logo {
+                font-size: 36px;
+            }
+
+            .order-banner {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px 20px;
+                top: 102px;
+            }
+
+            .order-banner-text {
+                font-size: 14px;
+                text-align: center;
+            }
+
+            .container {
+                margin-top: 192px;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                top: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        🎉 Special Offer: Get 20% off on all family buckets today!
+    </div>
 
-  <header>
-    <img src="kfc.png" alt="KFC LOGO" class="logo">
-    <section class="hero">
-        <h1>Welcome to KFC</h1>
-        <p>Finger Lickin’ Good!</p>
-      </section>
-  </header>
-  
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">KFC</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#promos">Promos</a></li>
+                </ul>
+            </nav>
+        </div>
+        <button class="sign-in-btn">SIGN IN</button>
+    </header>
 
-  <section class="menu-preview">
-    <h2>Popular Items</h2>
-    <div class="menu-items">
-      <div class="item">
-        <img src="chicken.jpeg" alt="Chicken Bucket">
-        <h3>Chicken Bucket R200</h3>
-        <img src="box.webp" alt="box meals">
-        <h3>Box meals R100</h3>
-        <a href="#" class="btn">Order Now</a>
+    <!-- Order Banner -->
+    <div class="order-banner">
+        <div class="order-banner-text">LET'S ORDER FOR QSKIP (COLLECTION) OR DELIVERY</div>
+        <button class="order-now-btn">ORDER NOW</button>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar Menu -->
+        <aside class="sidebar">
+            <h2>Menu</h2>
+            <ul class="menu-categories">
+                <li class="active">Breakfast</li>
+                <li>Box Meals</li>
+                <li>Burgers</li>
+                <li>Buckets</li>
+                <li>Streetwise</li>
+                <li>Twisters</li>
+                <li>Wings</li>
+                <li>Snacks & Sides</li>
+                <li>Family Treats</li>
+                <li>Treats</li>
+                <li>Drinks</li>
+                <li>Online Exclusives</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Our Menu</h1>
+                <p>Explore our full range of delicious offerings</p>
+            </div>
+
+            <!-- Breakfast Section -->
+            <div class="category-section" id="breakfast">
+                <h2>Breakfast</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="am-deluxe-burger.jpg" alt="AM Deluxe Burger">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">AM Deluxe Burger</div>
+                            <div class="menu-item-description">Crispy chicken fillet with egg, cheese, and special sauce</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R54.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="breakfast-twister.jpg" alt="Breakfast Twister">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Breakfast Twister</div>
+                            <div class="menu-item-description">Scrambled eggs, crispy bacon, and cheese in a soft tortilla</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R49.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="breakfast-box.jpg" alt="Breakfast Box">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Breakfast Box</div>
+                            <div class="menu-item-description">Hash browns, mini loaf, and your choice of chicken</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R64.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="egg-cheese-muffin.jpg" alt="Egg & Cheese Muffin">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Egg & Cheese Muffin</div>
+                            <div class="menu-item-description">Toasted English muffin with egg and melted cheese</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R34.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Box Meals Section -->
+            <div class="category-section" id="box-meals">
+                <h2>Box Meals</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="streetwise-two-meal.jpg" alt="Streetwise Two">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Streetwise Two</div>
+                            <div class="menu-item-description">2 pieces of chicken, chips, and a drink</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R49.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="streetwise-three-meal.jpg" alt="Streetwise Three">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Streetwise Three</div>
+                            <div class="menu-item-description">3 pieces of chicken, chips, and a drink</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R64.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="colonel-burger-meal.jpg" alt="Colonel Burger Meal">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Colonel Burger Meal</div>
+                            <div class="menu-item-description">Colonel burger, chips, and a drink</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R59.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Burgers Section -->
+            <div class="category-section" id="burgers">
+                <h2>Burgers</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="zinger-burger.jpg" alt="Zinger Burger">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Zinger Burger</div>
+                            <div class="menu-item-description">Spicy fillet burger with lettuce and mayo</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R39.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="colonel-burger.jpg" alt="Colonel Burger">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Colonel Burger</div>
+                            <div class="menu-item-description">Original recipe fillet with lettuce and mayo</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R34.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="crunch-burger.jpg" alt="Crunch Burger">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Crunch Burger</div>
+                            <div class="menu-item-description">Crispy chicken with hash brown and sauce</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R44.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="tower-burger.jpg" alt="Tower Burger">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Tower Burger</div>
+                            <div class="menu-item-description">Double fillet with hash brown and cheese</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R54.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buckets Section -->
+            <div class="category-section" id="buckets">
+                <h2>Buckets</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="9-piece-bucket.jpg" alt="9 Piece Bucket">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">9 Piece Bucket</div>
+                            <div class="menu-item-description">9 pieces of chicken - mix of original and crispy</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R169.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="15-piece-bucket.jpg" alt="15 Piece Bucket">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">15 Piece Bucket</div>
+                            <div class="menu-item-description">15 pieces of chicken - perfect for sharing</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R269.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="21-piece-bucket.jpg" alt="21 Piece Bucket">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">21 Piece Bucket</div>
+                            <div class="menu-item-description">21 pieces of chicken - great for parties</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R359.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Streetwise Section -->
+            <div class="category-section" id="streetwise">
+                <h2>Streetwise</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="streetwise-two.jpg" alt="Streetwise Two">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Streetwise Two</div>
+                            <div class="menu-item-description">2 pieces of chicken with chips</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R39.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="streetwise-three.jpg" alt="Streetwise Three">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Streetwise Three</div>
+                            <div class="menu-item-description">3 pieces of chicken with chips</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R54.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="streetwise-five.jpg" alt="Streetwise Five">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Streetwise Five</div>
+                            <div class="menu-item-description">5 pieces of chicken with chips</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R79.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Twisters Section -->
+            <div class="category-section" id="twisters">
+                <h2>Twisters</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="original-twister.jpg" alt="Original Twister">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Original Twister</div>
+                            <div class="menu-item-description">Chicken strips with lettuce and mayo in a tortilla</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R44.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="zinger-twister.jpg" alt="Zinger Twister">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Zinger Twister</div>
+                            <div class="menu-item-description">Spicy chicken strips with lettuce in a tortilla</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R49.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wings Section -->
+            <div class="category-section" id="wings">
+                <h2>Wings</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="4-piece-wings.jpg" alt="4 Piece Wings">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">4 Piece Wings</div>
+                            <div class="menu-item-description">4 crispy chicken wings</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R34.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="6-piece-wings.jpg" alt="6 Piece Wings">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">6 Piece Wings</div>
+                            <div class="menu-item-description">6 crispy chicken wings</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R49.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="9-piece-wings.jpg" alt="9 Piece Wings">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">9 Piece Wings</div>
+                            <div class="menu-item-description">9 crispy chicken wings</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R69.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Snacks & Sides Section -->
+            <div class="category-section" id="snacks-sides">
+                <h2>Snacks & Sides</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="regular-chips.jpg" alt="Regular Chips">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Regular Chips</div>
+                            <div class="menu-item-description">Crispy golden fries</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R19.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="large-chips.jpg" alt="Large Chips">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Large Chips</div>
+                            <div class="menu-item-description">Extra crispy golden fries</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R24.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="coleslaw.jpg" alt="Coleslaw">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Coleslaw</div>
+                            <div class="menu-item-description">Fresh cabbage salad</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R14.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="mash-gravy.jpg" alt="Mash & Gravy">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Mash & Gravy</div>
+                            <div class="menu-item-description">Creamy mashed potato with rich gravy</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R19.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="corn-cob.jpg" alt="Corn on the Cob">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Corn on the Cob</div>
+                            <div class="menu-item-description">Sweet buttered corn</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R16.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Family Treats Section -->
+            <div class="category-section" id="family-treats">
+                <h2>Family Treats</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="family-feast.jpg" alt="Family Feast">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Family Feast</div>
+                            <div class="menu-item-description">9 pieces, 2 large chips, coleslaw, and 1.5L drink</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R219.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="mega-feast.jpg" alt="Mega Feast">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Mega Feast</div>
+                            <div class="menu-item-description">15 pieces, 3 large chips, coleslaw, and 2L drink</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R349.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Treats Section -->
+            <div class="category-section" id="treats">
+                <h2>Treats</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="chocolate-mousse.jpg" alt="Chocolate Mousse">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Chocolate Mousse</div>
+                            <div class="menu-item-description">Rich chocolate dessert</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R19.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="soft-serve.jpg" alt="Soft Serve">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Soft Serve</div>
+                            <div class="menu-item-description">Classic vanilla soft serve ice cream</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R14.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="choc-chip-cookie.jpg" alt="Choc Chip Cookie">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Choc Chip Cookie</div>
+                            <div class="menu-item-description">Freshly baked chocolate chip cookie</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R12.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Drinks Section -->
+            <div class="category-section" id="drinks">
+                <h2>Drinks</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="regular-soft-drink.jpg" alt="Regular Soft Drink">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Regular Soft Drink</div>
+                            <div class="menu-item-description">Choice of Coke, Sprite, or Fanta</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R16.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="large-soft-drink.jpg" alt="Large Soft Drink">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Large Soft Drink</div>
+                            <div class="menu-item-description">Choice of Coke, Sprite, or Fanta</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R19.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="bottled-water.jpg" alt="Bottled Water">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Bottled Water</div>
+                            <div class="menu-item-description">500ml still water</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R14.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online Exclusives Section -->
+            <div class="category-section" id="online-exclusives">
+                <h2>Online Exclusives</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="online-exclusive-bucket.jpg" alt="Online Exclusive Bucket">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Online Exclusive Bucket</div>
+                            <div class="menu-item-description">12 pieces with 2 large chips - online only</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R199.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item">
+                        <div class="menu-item-image">
+                            <img src="digital-deal-box.jpg" alt="Digital Deal Box">
+                        </div>
+                        <div class="menu-item-content">
+                            <div class="menu-item-title">Digital Deal Box</div>
+                            <div class="menu-item-description">Special meal deal only available online</div>
+                            <div class="menu-item-footer">
+                                <span class="menu-item-price">R74.90</span>
+                                <button class="add-button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>>
+
+                <div class="menu-item" data-category="box meals">
+                    <div class="menu-item-image">📦</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Colonel Burger Meal</div>
+                        <div class="menu-item-description">Colonel burger, chips, and a drink</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R59.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Burgers -->
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-image">🍔</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Zinger Burger</div>
+                        <div class="menu-item-description">Spicy fillet burger with lettuce and mayo</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R39.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-image">🍔</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Colonel Burger</div>
+                        <div class="menu-item-description">Original recipe fillet with lettuce and mayo</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R34.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-image">🍔</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Crunch Burger</div>
+                        <div class="menu-item-description">Crispy chicken with hash brown and sauce</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R44.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="burgers">
+                    <div class="menu-item-image">🍔</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Tower Burger</div>
+                        <div class="menu-item-description">Double fillet with hash brown and cheese</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R54.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buckets -->
+                <div class="menu-item" data-category="buckets">
+                    <div class="menu-item-image">🪣</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">9 Piece Bucket</div>
+                        <div class="menu-item-description">9 pieces of chicken - mix of original and crispy</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R169.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="buckets">
+                    <div class="menu-item-image">🪣</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">15 Piece Bucket</div>
+                        <div class="menu-item-description">15 pieces of chicken - perfect for sharing</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R269.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="buckets">
+                    <div class="menu-item-image">🪣</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">21 Piece Bucket</div>
+                        <div class="menu-item-description">21 pieces of chicken - great for parties</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R359.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Streetwise -->
+                <div class="menu-item" data-category="streetwise">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Streetwise Two</div>
+                        <div class="menu-item-description">2 pieces of chicken with chips</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R39.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="streetwise">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Streetwise Three</div>
+                        <div class="menu-item-description">3 pieces of chicken with chips</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R54.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="streetwise">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Streetwise Five</div>
+                        <div class="menu-item-description">5 pieces of chicken with chips</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R79.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Twisters -->
+                <div class="menu-item" data-category="twisters">
+                    <div class="menu-item-image">🌯</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Original Twister</div>
+                        <div class="menu-item-description">Chicken strips with lettuce and mayo in a tortilla</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R44.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="twisters">
+                    <div class="menu-item-image">🌯</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Zinger Twister</div>
+                        <div class="menu-item-description">Spicy chicken strips with lettuce in a tortilla</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R49.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wings -->
+                <div class="menu-item" data-category="wings">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">4 Piece Wings</div>
+                        <div class="menu-item-description">4 crispy chicken wings</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R34.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="wings">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">6 Piece Wings</div>
+                        <div class="menu-item-description">6 crispy chicken wings</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R49.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="wings">
+                    <div class="menu-item-image">🍗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">9 Piece Wings</div>
+                        <div class="menu-item-description">9 crispy chicken wings</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R69.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Snacks & Sides -->
+                <div class="menu-item" data-category="snacks & sides">
+                    <div class="menu-item-image">🍟</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Regular Chips</div>
+                        <div class="menu-item-description">Crispy golden fries</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R19.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="snacks & sides">
+                    <div class="menu-item-image">🍟</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Large Chips</div>
+                        <div class="menu-item-description">Extra crispy golden fries</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R24.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="snacks & sides">
+                    <div class="menu-item-image">🥗</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Coleslaw</div>
+                        <div class="menu-item-description">Fresh cabbage salad</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R14.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="snacks & sides">
+                    <div class="menu-item-image">🥔</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Mash & Gravy</div>
+                        <div class="menu-item-description">Creamy mashed potato with rich gravy</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R19.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="snacks & sides">
+                    <div class="menu-item-image">🌽</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Corn on the Cob</div>
+                        <div class="menu-item-description">Sweet buttered corn</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R16.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Family Treats -->
+                <div class="menu-item" data-category="family treats">
+                    <div class="menu-item-image">👨‍👩‍👧‍👦</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Family Feast</div>
+                        <div class="menu-item-description">9 pieces, 2 large chips, coleslaw, and 1.5L drink</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R219.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="family treats">
+                    <div class="menu-item-image">👨‍👩‍👧‍👦</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Mega Feast</div>
+                        <div class="menu-item-description">15 pieces, 3 large chips, coleslaw, and 2L drink</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R349.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Treats -->
+                <div class="menu-item" data-category="treats">
+                    <div class="menu-item-image">🍰</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Chocolate Mousse</div>
+                        <div class="menu-item-description">Rich chocolate dessert</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R19.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="treats">
+                    <div class="menu-item-image">🍦</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Soft Serve</div>
+                        <div class="menu-item-description">Classic vanilla soft serve ice cream</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R14.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="treats">
+                    <div class="menu-item-image">🍪</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Choc Chip Cookie</div>
+                        <div class="menu-item-description">Freshly baked chocolate chip cookie</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R12.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Drinks -->
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-image">🥤</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Regular Soft Drink</div>
+                        <div class="menu-item-description">Choice of Coke, Sprite, or Fanta</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R16.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-image">🥤</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Large Soft Drink</div>
+                        <div class="menu-item-description">Choice of Coke, Sprite, or Fanta</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R19.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="drinks">
+                    <div class="menu-item-image">💧</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Bottled Water</div>
+                        <div class="menu-item-description">500ml still water</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R14.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Online Exclusives -->
+                <div class="menu-item" data-category="online exclusives">
+                    <div class="menu-item-image">⭐</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Online Exclusive Bucket</div>
+                        <div class="menu-item-description">12 pieces with 2 large chips - online only</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R199.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="menu-item" data-category="online exclusives">
+                    <div class="menu-item-image">⭐</div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-title">Digital Deal Box</div>
+                        <div class="menu-item-description">Special meal deal only available online</div>
+                        <div class="menu-item-footer">
+                            <span class="menu-item-price">R74.90</span>
+                            <button class="add-button">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const menuCategories = document.querySelectorAll('.menu-categories li');
+        const categorySections = document.querySelectorAll('.category-section');
         
-
-      </body>
-</html>
-
-<html>
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>KFC Menu Order System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #d32323;
-    }
-
-    .menu, .cart {
-      margin-top: 20px;
-    }
-
-    .menu-item, .cart-item {
-      border: 1px solid rgb(121, 50, 50);
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    button {
-      padding: 5px 10px;
-      background-color: #d32323;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background-color: #a51e1e;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>🍗 KFC Menu</h1>
-
-  <div class="menu" id="menu"></div>
-
-  <h2>🛒 Your Cart</h2>
-  <div class="cart" id="cart"></div>
-  <p><strong>Total:</strong> R<span id="total">0.00</span></p>
-  <button onclick="placeOrder()">Place Order</button>
-
-  <script>
-
-    const menuItems = [
-      { name: "Original Chicken", price: 5.99 },
-      { name: "All Star Box Meal", price: 78.99 },
-      { name: "Zinger Burger", price: 40.49 },
-      { name: "Nuggets Chicken", price: 30.99 },
-      { name: "Fries", price: 20.49 },
-      { name: "Mashed Potatoes with Gravy", price: 20.99 },
-      { name: "Coleslaw", price: 10.99 }
-    ];
-
-    const cart = [];
-
-    function renderMenu() {
-      const menu = document.getElementById('menu');
-      menuItems.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'menu-item';
-        div.innerHTML = `
-          <strong>${item.name}</strong><br>
-          Price: R${item.price.toFixed(2)}<br>
-          <button onclick="addToCart(${index})">Add to Cart</button>
-        `;
-        menu.appendChild(div);
-      });
-    }
-
-    function addToCart(index) {
-      cart.push(menuItems[index]);
-      renderCart();
-    }
-
-    function renderCart() {
-      const cartDiv = document.getElementById('cart');
-      cartDiv.innerHTML = '';
-      let total = 0;
-
-      cart.forEach((item, index) => {
-        total += item.price;
-        const div = document.createElement('div');
-        div.className = 'cart-item';
-        div.innerHTML = `
-          ${item.name} - R${item.price.toFixed(2)}
-          <button onclick="removeFromCart(${index})">Remove</button>
-        `;
-        cartDiv.appendChild(div);
-      });
-
-      document.getElementById('total').textContent = total.toFixed(2);
-    }
-
-    function removeFromCart(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
-
-    function placeOrder() {
-      if (cart.length === 0) {
-        alert("Your cart is empty!");
-      } else {
-        alert("Thank you for your order! 🍗");
-        cart.length = 0; 
-        renderCart();
-      }
-    }
-
-    
-    renderMenu();
-  </script>
-
+        // Smooth scroll to section when sidebar item is clicked
+        menuCategories.forEach((category, index) => {
+            category.addEventListener('click', function() {
+                menuCategories.forEach(cat => cat.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Scroll to the corresponding section
+                if (categorySections[index]) {
+                    categorySections[index].scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Highlight active category in sidebar when scrolling
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            categorySections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            menuCategories.forEach((category, index) => {
+                category.classList.remove('active');
+                if (categorySections[index] && categorySections[index].getAttribute('id') === current) {
+                    category.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
-</html>
-
 </html>
