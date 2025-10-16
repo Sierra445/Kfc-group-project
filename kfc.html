@@ -1,46 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KFC Clone</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header>
-    <img src="downloads" alt="KFC LOGO" class="logo">
-    <nav>
-      <ul>
-        <li><a href="#">Menu</a></li>
-        <li><a href="#">Deals</a></li>
-        <li><a href="#">Find a KFC</a></li>
-        <li><a href="#">Sign In</a></li>
-      </ul>
-    </nav>
+    <img src="kfc.png" alt="KFC LOGO" class="logo">
+    <section class="hero">
+        <h1>Welcome to KFC</h1>
+        <p>Finger Lickin’ Good!</p>
+      </section>
   </header>
-
-  <section class="hero">
-    <h1>Welcome to KFC</h1>
-    <p>Finger Lickin’ Good!</p>
-    <a href="#" class="btn">Order Now</a>
-  </section>
+  
 
   <section class="menu-preview">
     <h2>Popular Items</h2>
     <div class="menu-items">
       <div class="item">
-        <img src="images/chicken-bucket.jpg" alt="Chicken Bucket">
-        <h3>Chicken Bucket</h3>
+        <img src="chicken.jpeg" alt="Chicken Bucket">
+        <h3>Chicken Bucket R200</h3>
+        <img src="box.webp" alt="box meals">
+        <h3>Box meals R100</h3>
+        <a href="#" class="btn">Order Now</a>
+        
 
-      </div>
- 
-    </div>
-  </section>
+      </body>
+</html>
 
-  <footer>
-    <p>© 2025 KFC Clone. Built for learning purposes.</p>
-  </footer>
-  <script src="script.js"></script>
+<html>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>KFC Menu Order System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #d32323;
+    }
+
+    .menu, .cart {
+      margin-top: 20px;
+    }
+
+    .menu-item, .cart-item {
+      border: 1px solid rgb(121, 50, 50);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 5px 10px;
+      background-color: #d32323;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #a51e1e;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍗 KFC Menu</h1>
+
+  <div class="menu" id="menu"></div>
+
+  <h2>🛒 Your Cart</h2>
+  <div class="cart" id="cart"></div>
+  <p><strong>Total:</strong> R<span id="total">0.00</span></p>
+  <button onclick="placeOrder()">Place Order</button>
+
+  <script>
+
+    const menuItems = [
+      { name: "Original Recipe Chicken", price: 5.99 },
+      { name: "All Star Box Meal", price: 78.99 },
+      { name: "Zinger Burger", price: 40.49 },
+      { name: "Popcorn Chicken", price: 30.99 },
+      { name: "Fries", price: 20.49 },
+      { name: "Mashed Potatoes with Gravy", price: 20.99 },
+      { name: "Coleslaw", price: 10.99 }
+    ];
+
+    const cart = [];
+
+    function renderMenu() {
+      const menu = document.getElementById('menu');
+      menuItems.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'menu-item';
+        div.innerHTML = `
+          <strong>${item.name}</strong><br>
+          Price: R${item.price.toFixed(2)}<br>
+          <button onclick="addToCart(${index})">Add to Cart</button>
+        `;
+        menu.appendChild(div);
+      });
+    }
+
+    function addToCart(index) {
+      cart.push(menuItems[index]);
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartDiv = document.getElementById('cart');
+      cartDiv.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price;
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          ${item.name} - R${item.price.toFixed(2)}
+          <button onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartDiv.appendChild(div);
+      });
+
+      document.getElementById('total').textContent = total.toFixed(2);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function placeOrder() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+      } else {
+        alert("Thank you for your order! 🍗");
+        cart.length = 0; 
+        renderCart();
+      }
+    }
+
+    
+    renderMenu();
+  </script>
+
 </body>
+</html>
+
 </html>
