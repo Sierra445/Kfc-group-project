@@ -139,7 +139,7 @@
 
         /* Sidebar Styles */
         .sidebar {
-            width: 280px;
+            width: 200px;
             background-color: #ffffff;
             padding: 20px 0;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
@@ -359,6 +359,79 @@
                 grid-template-columns: 1fr;
             }
         }
+        /* Footer */
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 60px 40px 20px;
+  }
+  
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .footer-section h3 {
+    color: #e4002b;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section a:hover {
+    color: #e4002b;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #555;
+    color: #999;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .social-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #555;
+    border-radius: 50%;
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    transition: background-color 0.3s, transform 0.3s;
+    text-decoration: none;
+  }
+  
+  .social-icon:hover {
+    background-color: #e4002b;
+    transform: scale(1.1);
+  }
+  
     </style>
 </head>
 <body>
@@ -371,6 +444,7 @@
     <header class="header">
         <div class="header-left">
             <img src="images/kfc.png", alt="KFC LOGO" width="140">
+            
             <nav>
                 <ul class="nav-links">
                     <li><a href="#menu">Menu</a></li>
@@ -1005,8 +1079,67 @@
             </div>
         </main>
     </div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>KFC South Africa</h3>
+        <p>It's Finger Lickin' Good!</p>
+  
+        <!-- KFC Contact Details -->
+        <p><strong>Head Office:</strong><br>
+        123 Colonel Street,<br>
+        Johannesburg, South Africa</p>
+  
+        <p><strong>Phone:</strong> <a href="tel:+27111234567">+27 11 123 4567</a></p>
+        <p><strong>Email:</strong> <a href="mailto:info@kfc.co.za">info@kfc.co.za</a></p>
+        <p><strong>Business Hours:</strong><br>
+        Mon - Fri: 8:00 AM - 5:00 PM</p>
+
+      </div>
+  
+  
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#deals">Deals</a></li>
+          <li><a href="#locations">Find a KFC</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#careers">Careers</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#faq">FAQs</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li><a href="#nutrition">Nutrition Info</a></li>
+          <li><a href="#allergens">Allergen Info</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="#terms">Terms & Conditions</a></li>
+          <li><a href="#privacy">Privacy Policy</a></li>
+          <li><a href="#cookies">Cookie Policy</a></li>
+          <li><a href="#accessibility">Accessibility</a></li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+                <p>&copy; 2025 KFC South Africa. All rights reserved. KFC and related marks are trademarks of Yum! Brands Inc.</p>
+    </div>
+  </footer>
+  
 
     <script>
+
         const menuCategories = document.querySelectorAll('.menu-categories li');
         const categorySections = document.querySelectorAll('.category-section');
         
