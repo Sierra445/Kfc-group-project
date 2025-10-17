@@ -19,3 +19,4 @@ Our goal is to replicate the **layout**, **structure**, and **styling** of the o
 ## 👥 Group Members
 
 Ntwenhle Mtshali
+Elsie Msiza
